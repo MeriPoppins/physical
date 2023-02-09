@@ -1,18 +1,22 @@
-from rest_framework.serializers import ModelSerializer, SerializerMethodField, DateTimeField
+from rest_framework.serializers import (
+    ModelSerializer,
+    SerializerMethodField,
+    DateTimeField,
+)
 
 from .models import Post, Comment
 
 
 class CommentsListSerializer(ModelSerializer):
-    class Meta: 
+    class Meta:
         model = Comment
-        fields = ('pk', 'text', 'post')
+        fields = ("pk", "text", "post")
 
 
 class CommentSerializer(ModelSerializer):
-    class Meta: 
+    class Meta:
         model = Comment
-        fields = ('pk', 'text')
+        fields = ("pk", "text")
 
 
 class PostsListSerializer(ModelSerializer):
@@ -25,16 +29,15 @@ class PostsListSerializer(ModelSerializer):
             return CommentSerializer(comment).data
         return None
 
-    class Meta: 
+    class Meta:
         model = Post
-        fields = ('pk', 'title', 'text', 'created_at', 'comment')
+        fields = ("pk", "title", "text", "created_at", "comment")
 
 
 class PostSerializer(ModelSerializer):
     created_at = DateTimeField(format="%Y-%m-%dT%H:%M:%S")
     comments = CommentSerializer(many=True)
 
-    class Meta: 
+    class Meta:
         model = Post
-        fields = ('pk', 'title', 'text', 'created_at', 'views', 'comments')
-
+        fields = ("pk", "title", "text", "created_at", "views", "comments")
